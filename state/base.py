@@ -1,0 +1,1 @@
+# Estado base global
