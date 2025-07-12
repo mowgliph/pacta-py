@@ -1,7 +1,7 @@
 from typing import Optional
 from reflex import State
-from models.user import User, UserModel, UserCreate
-from utils.database import get_db, init_db
+from pacta_py.models.user import User, UserModel, UserCreate
+from pacta_py.utils.database import get_db, init_db
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 import bcrypt

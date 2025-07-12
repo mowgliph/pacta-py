@@ -1,44 +1,44 @@
-from reflex import el
-from state.auth_state import AuthState
+import reflex as rx
+from pacta_py.state.auth_state import AuthState
 
 def login():
-    return el.center(
-        el.vstack(
-            el.heading("PACTA - Login", size="xl"),
-            el.input(
+    return rx.center(
+        rx.vstack(
+            rx.heading("PACTA - Login", size="1"),
+            rx.input(
                 placeholder="Username",
                 on_change=AuthState.set_username,
                 width="100%",
                 max_width="400px",
             ),
-            el.input(
+            rx.input(
                 placeholder="Password",
                 type_="password",
                 on_change=AuthState.set_password,
                 width="100%",
                 max_width="400px",
             ),
-            el.checkbox(
+            rx.checkbox(
                 "Recordarme",
                 on_change=AuthState.set_remember_me,
             ),
-            el.button(
+            rx.button(
                 "Login",
                 on_click=AuthState.login,
                 width="100%",
                 max_width="400px",
                 is_loading=AuthState.is_loading,
             ),
-            el.text(
-                AuthState.error if AuthState.error else "",
+            rx.text(
+                rx.cond(AuthState.error, AuthState.error, ""),
                 color="red",
             ),
-            el.link(
+            rx.link(
                 "¿No tienes cuenta? Regístrate aquí",
                 href="/register",
                 color="blue",
             ),
-            spacing="1rem",
+            spacing="4",
             padding="2rem",
         ),
         width="100%",

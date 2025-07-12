@@ -1,9 +1,7 @@
 import reflex as rx
 
-# Configuración básica de la aplicación
 config = rx.Config(
-    app_name="pacta",
-    frontend_packages=["@reflex-ui/core"],
+    app_name="pacta_py",
     backend_packages=["bcrypt", "sqlalchemy", "python-jose[cryptography]", "passlib"],
     backend_port=8000,
     frontend_port=3000,
@@ -13,5 +11,5 @@ config = rx.Config(
     log_level="INFO",
     log_style="pretty",
     log_file=None,
-    telemetry_enabled=False,  # Desactivada la telemetría
+    telemetry_enabled=False,
 )

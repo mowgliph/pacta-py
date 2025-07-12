@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.user import Base, UserModel
+from pacta_py.models.user import Base, UserModel
 from sqlalchemy.orm import Session
 import bcrypt
 
