@@ -1,9 +1,9 @@
 import reflex as rx
-from pacta_py.state.auth_state import AuthState
-from pacta_py.pages.login import login
-from pacta_py.pages.register import register
-from pacta_py.pages.dashboard import dashboard as dashboard_page
-from pacta_py.utils.database import init_db
+from pacta.state.auth_state import AuthState
+from pacta.pages.login import login
+from pacta.pages.register import register
+from pacta.pages.dashboard import dashboard as dashboard_page
+from pacta.utils.database import init_db
 
 # Inicializar la base de datos al iniciar la aplicación
 init_db()

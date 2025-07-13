@@ -1,7 +1,7 @@
 import reflex as rx
 
 config = rx.Config(
-    app_name="pacta_py",
+    app_name="pacta",
     backend_packages=["bcrypt", "sqlalchemy", "python-jose[cryptography]", "passlib"],
     backend_port=8000,
     frontend_port=3000,

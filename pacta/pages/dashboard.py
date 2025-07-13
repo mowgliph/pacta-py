@@ -1,5 +1,5 @@
 import reflex as rx
-from pacta_py.state.auth_state import AuthState
+from pacta.state.auth_state import AuthState
 
 def dashboard():
     return rx.center(
