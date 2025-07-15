@@ -9,9 +9,6 @@ try:
     config = rx.Config(
         app_name="pacta",
         backend_packages=["bcrypt", "sqlalchemy", "python-jose[cryptography]", "passlib"],
-        backend_port=os.getenv("BACKEND_PORT"),
-        frontend_port=os.getenv("FRONTEND_PORT"),
-        api_url=f"{os.getenv('API_URL')}:{os.getenv('FRONTEND_PORT')}",
         db_url=os.getenv("DB_URL"),
         env_path=".env",
         log_level="INFO",
