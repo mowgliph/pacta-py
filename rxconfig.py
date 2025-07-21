@@ -15,6 +15,8 @@ try:
         log_style="pretty",
         log_file=None,
         telemetry_enabled=False,
+        #plugins=["reflex.plugins.sitemap.SitemapPlugin"],
+        #disable_plugins=[],
     )
 except Exception as e:
     print(f"Error al configurar Reflex: {e}")
