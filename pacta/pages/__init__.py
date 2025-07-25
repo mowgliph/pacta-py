@@ -1,1 +1,10 @@
-# Este archivo hace que el directorio sea reconocido como un paquete de Python 
+"""
+Pages package for the PACTA application.
+"""
+from .login import login
+from .dashboard import dashboard
+
+__all__ = [
+    "login",
+    "dashboard",
+]

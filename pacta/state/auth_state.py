@@ -276,6 +276,11 @@ class AuthState(State):
         self.error = None
         self.token = None
         self.remember_me = False
+        
+    def clear_error(self):
+        """Clear any error messages."""
+        self.error = None
+        return True  # Return True to indicate success to the frontend
 
     def logout(self):
         """Handle user logout."""
