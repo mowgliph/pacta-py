@@ -1,6 +1,6 @@
 import reflex as rx
 from ..state.auth_state import AuthState
-from ..styles.styles import Color, Font, TextStyles
+from ..styles.styles import Color, Font, TextStyles, FontSizes
 from ..components.alerts import alert, AlertType
 from ..components.footer import footer
 
@@ -15,13 +15,13 @@ login_container_style = {
     "border": f"1px solid {Color.BORDER}",
 }
 
-input_container_style = {
+input_style = {
     "width": "100%",
-    "margin_bottom": "1.25rem",
-}
-
-password_input_style = {
-    "padding_right": "2.5rem",  # Space for the eye icon
+    "padding": "0.5rem 0",
+    "font_size": FontSizes.BASE,  # 1rem / 16px
+    "line_height": "1.5",
+    "min_height": "auto",
+    "background": "transparent"
 }
 
 show_password_button_style = {
@@ -61,7 +61,7 @@ def login():
                 rx.text(
                     "Inicia sesión en tu cuenta",
                     color=Color.SECONDARY_CONTENT,
-                    font_size="1.125rem",
+                    font_size=FontSizes.LG,  # 1.25rem / 20px
                     opacity="0.9",
                     margin_bottom="1.5rem",
                     font_family=Font.PRIMARY,
@@ -75,48 +75,66 @@ def login():
                 rx.vstack(
                     # Error message
                     rx.cond(
-                        AuthState.error != "",
-                        alert(
-                            title="Error",
-                            description=AuthState.error,
-                            status=AlertType.ERROR,
-                            margin_bottom="1.5rem",
-                            on_close=AuthState.clear_error,
+                        AuthState.error,
+                        rx.callout(
+                            AuthState.error,
+                            icon="alert_triangle",
+                            color_scheme="red",
+                            variant="soft",
+                            width="100%",
+                            margin_bottom="1rem"
                         ),
                     ),
-                    
+                    # Success message
+                    rx.cond(
+                        AuthState.success,
+                        rx.callout(
+                            AuthState.success,
+                            icon="check_circle",
+                            color_scheme="green",
+                            variant="soft",
+                            width="100%",
+                            margin_bottom="1rem"
+                        ),
+                    ),
                     # Username field
                     rx.vstack(
                         rx.text(
                             "Usuario",
                             color=Color.SECONDARY_CONTENT, 
                             align_self="start",
-                            font_size=TextStyles.SMALL["font_size"],
+                            font_size=FontSizes.BASE,
                             font_weight="500",
                             font_family=Font.PRIMARY,
                             margin_bottom="0.5rem",
                         ),
                         rx.hstack(
-                            rx.icon(tag="user", color=Color.ACCENT, size=20, margin_right="0.5rem"),
+                            rx.icon(
+                                tag="user", 
+                                color=Color.ACCENT, 
+                                size=20, 
+                                margin_right="0.5rem",
+                                align_self="center"
+                            ),
                             rx.input(
                                 placeholder="usuario@ejemplo.com",
                                 value=AuthState.username,
                                 on_change=AuthState.set_username,
-                                variant="surface",
-                                padding_y="0.75rem",
+                                variant="classic",
+                                border_color=Color.BORDER,
+                                is_required=True,
+                                error_border_color=Color.ERROR,
+                                _focus={"border_color": Color.PRIMARY},
+                                border_radius="0.375rem",
                                 _placeholder={"color": "gray.400"},
-                                border="none",
                                 _focus={
-                                    "box_shadow": "none",
-                                    "outline": "none"
+                                    "border_color": Color.ACCENT,
+                                    "box_shadow": f"0 0 0 1px {Color.ACCENT}",
                                 },
+                                **input_style,
                             ),
-                            spacing="3",
-                            padding_x="0.75rem",
-                            border_radius="md",
-                            border=f"1px solid {Color.BORDER}",
-                            _hover={"border_color": Color.ACCENT_LIGHT},
-                            **input_container_style,
+                            spacing="1",
+                            padding_x="0.25rem",
                         ),
                         spacing="1",
                         width="100%",
@@ -128,95 +146,88 @@ def login():
                             "Contraseña",
                             color=Color.SECONDARY_CONTENT, 
                             align_self="start",
-                            font_size=TextStyles.SMALL["font_size"],
+                            font_size=FontSizes.BASE,
                             font_weight="500",
                             font_family=Font.PRIMARY,
                             margin_bottom="0.5rem",
                             margin_top="1rem",
                         ),
-                        rx.box(
-                            position="relative",
-                            width="100%",
-                        )[
+                        rx.hstack(
+                            rx.icon(
+                                tag="lock",
+                                size=16,
+                                color=Color.ACCENT,
+                                margin_right="0.5rem",
+                                align_self="center"
+                            ),
                             rx.hstack(
-                                rx.icon(tag="lock", color=Color.ACCENT, size=20),
                                 rx.input(
                                     placeholder="••••••••",
-                                    type_=rx.cond(AuthState.show_password, "text", "password"),
                                     value=AuthState.password,
                                     on_change=AuthState.set_password,
-                                    variant="surface",
-                                    padding_y="0.75rem",
-                                    border="none",
-                                    _placeholder={"color": "gray.400"},
-                                    _focus={
-                                        "box_shadow": "none",
-                                        "outline": "none"
-                                    },
-                                    **password_input_style,
+                                    type_="password" if not AuthState.show_password else "text",
+                                    variant="classic",
+                                    border_color=Color.BORDER,
+                                    is_required=True,
+                                    error_border_color=Color.ERROR,
+                                    _focus={"border_color": Color.PRIMARY},
+                                    padding_right="2.5rem",
+                                    width="100%"
                                 ),
-                                rx.button(
+                                rx.icon_button(
                                     rx.icon(
-                                        tag=rx.cond(AuthState.show_password, "eye-off", "eye"),
-                                        size=16,
+                                        tag="eye" if not AuthState.show_password else "eye-off",
                                         color=Color.SECONDARY_CONTENT,
+                                        size=16
                                     ),
                                     on_click=AuthState.toggle_show_password,
-                                    **show_password_button_style,
+                                    variant="ghost",
+                                    size="sm",
+                                    position="absolute",
+                                    right="0.75rem",
+                                    _hover={"background": "transparent"},
+                                    aria_label="Toggle password visibility"
                                 ),
-                                spacing="3",
-                                padding_x="0.75rem",
-                                border_radius="md",
-                                border=f"1px solid {Color.BORDER}",
-                                _hover={"border_color": Color.ACCENT_LIGHT},
-                                align_items="center",
+                                position="relative",
+                                width="100%"
                             ),
-                        ],
+                            border_radius="0.375rem",
+                            _placeholder={"color": "gray.400"},
+                            _focus={
+                                "border_color": Color.ACCENT,
+                                "box_shadow": f"0 0 0 1px {Color.ACCENT}",
+                            },
+                        ),
                         spacing="1",
                         width="100%",
                         align_items="start",
                     ),
                     # Remember me
-                    rx.checkbox(
-                        rx.text(
-                            "Recordarme",
-                            color=Color.SECONDARY_CONTENT,
-                            font_size=TextStyles.SMALL["font_size"],
-                            font_family=Font.PRIMARY,
-                            font_weight="500",
-                            margin_left="0.5rem",
+                    rx.hstack(
+                        rx.checkbox(
+                            "Recordar sesión",
+                            is_checked=AuthState.remember_me,
+                            on_change=AuthState.set_remember_me,
+                            color_scheme=Color.PRIMARY,
+                            size="sm",
                         ),
-                        on_change=AuthState.set_remember_me,
-                        size="md",
-                        color_scheme=Color.ACCENT[1:],  # Elimina el # del color
-                        _hover={"border_color": Color.ACCENT},
-                        margin_top="0.5rem",
-                        border_color=Color.BORDER,
+                        width="100%",
+                        margin_bottom="1.5rem",
                     ),
-                    
                     # Login button
                     rx.button(
-                        rx.cond(
-                            AuthState.is_loading,
-                            rx.spinner(color="white", size="sm"),
-                            "Iniciar sesión",
-                        ),
+                        "Iniciar sesión",
                         type_="submit",
                         width="100%",
-                        size="lg",
-                        is_loading=AuthState.is_loading,
-                        is_disabled=rx.cond(
-                            (AuthState.username == "") | (AuthState.password == ""),
-                            True,
-                            False,
-                        ),
-                        background=Color.ACCENT,
+                        background_color=Color.PRIMARY,
                         color=Color.WHITE,
-                        _hover={
-                            "opacity": "0.9",
-                            "transform": "translateY(-1px)",
-                            "box_shadow": "0 4px 12px rgba(70, 143, 175, 0.2)",
-                        },
+                        _hover={"opacity": "0.9"},
+                        is_loading=AuthState.is_loading,
+                        is_disabled=not (AuthState.username and AuthState.password),
+                        loading_text="Iniciando sesión...",
+                        font_weight="semibold",
+                        height="2.75rem",
+                        margin_bottom="1.5rem",
                         _active={
                             "opacity": "0.8",
                             "transform": "translateY(0)",
@@ -227,7 +238,7 @@ def login():
                         font_family=Font.PRIMARY,
                     ),
                     
-                    # Redirect is handled by the handle_submit method
+                    # Redirect is handled by the login method
                     rx.cond(
                         AuthState.is_authenticated,
                         rx.script("window.location.href = '/dashboard'"),
@@ -237,8 +248,7 @@ def login():
                     spacing="4",
                     width="100%",
                 ),
-                on_submit=AuthState.handle_submit,
-                width="100%",
+                on_submit=AuthState.login,
                 **login_container_style,
             ),
             

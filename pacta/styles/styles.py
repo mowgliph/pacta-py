@@ -7,6 +7,23 @@ class Font:
     SECONDARY = "Open Sans"
     DEFAULT = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
 
+# Tamaños de fuente escalables
+class FontSizes:
+    """Tamaños de fuente predefinidos basados en una escala modular.
+    
+    Basado en un tamaño base de 1rem (16px por defecto) con una relación de 1.25.
+    """
+    XS = "0.75rem"      # 12px
+    SM = "0.875rem"     # 14px
+    BASE = "1rem"       # 16px
+    LG = "1.25rem"      # 20px
+    XL = "1.5rem"       # 24px
+    XL2 = "1.875rem"    # 30px
+    XL3 = "2.25rem"     # 36px
+    XL4 = "3rem"        # 48px
+    XL5 = "3.75rem"     # 60px
+    XL6 = "4.5rem"      # 72px
+
 # Configuración de estilos de texto
 class TextStyles:
     """Estilos de texto predefinidos."""
@@ -14,23 +31,26 @@ class TextStyles:
         "font_family": Font.PRIMARY,
         "font_weight": "700",
         "line_height": "1.2",
+        "font_size": FontSizes.XL4,
     }
     
     SUBHEADING = {
         "font_family": Font.PRIMARY,
         "font_weight": "600",
         "line_height": "1.3",
+        "font_size": FontSizes.XL,  # 1.5rem / 24px
     }
     
     BODY = {
         "font_family": Font.SECONDARY,
         "font_weight": "400",
         "line_height": "1.6",
+        "font_size": FontSizes.BASE,  # 1rem / 16px
     }
     
     SMALL = {
         "font_family": Font.SECONDARY,
-        "font_size": "0.875rem",
+        "font_size": FontSizes.SM,  # 0.875rem / 14px
         "line_height": "1.5",
     }
 
@@ -60,12 +80,35 @@ BASE_STYLES = {
         "font_family": f"{Font.SECONDARY}, {Font.DEFAULT}",
         "color": Color.CONTENT,
         "line_height": "1.6",
-        "font_size": "1rem",
+        "font_size": FontSizes.BASE,  # 1rem / 16px
+    },
+    "h1": {
+        "font_size": FontSizes.XL4,  # 3rem / 48px
+        "font_weight": "700",
+    },
+    "h2": {
+        "font_size": FontSizes.XL3,  # 2.25rem / 36px
+        "font_weight": "700",
+    },
+    "h3": {
+        "font_size": FontSizes.XL2,  # 1.875rem / 30px
+        "font_weight": "600",
+    },
+    "h4": {
+        "font_size": FontSizes.XL,  # 1.5rem / 24px
+        "font_weight": "600",
+    },
+    "h5": {
+        "font_size": FontSizes.LG,  # 1.25rem / 20px
+        "font_weight": "600",
+    },
+    "h6": {
+        "font_size": FontSizes.BASE,  # 1rem / 16px
+        "font_weight": "600",
     },
     "h1, h2, h3, h4, h5, h6": {
         "font_family": f"{Font.PRIMARY}, {Font.DEFAULT}",
         "color": Color.PRIMARY_CONTENT,
-        "font_weight": "700",
         "margin_bottom": "0.5em",
         "line_height": "1.2",
     },
@@ -88,7 +131,9 @@ BASE_STYLES = {
     rx.button: {
         "background_color": Color.ACCENT,
         "color": "white",
+        "font_family": Font.PRIMARY,
         "font_weight": "600",
+        "font_size": FontSizes.BASE,  # 1rem / 16px
         "padding": "0.75rem 1.5rem",
         "border_radius": "0.5rem",
         "border": "none",
@@ -110,6 +155,8 @@ BASE_STYLES = {
         },
     },
     rx.input: {
+        "font_family": Font.SECONDARY,
+        "font_size": FontSizes.BASE,  # 1rem / 16px
         "padding": "0.75rem 1rem",
         "border_radius": "0.5rem",
         "border": f"1px solid {Color.BORDER}",
@@ -125,7 +172,8 @@ BASE_STYLES = {
             "border_color": Color.ACCENT_LIGHT,
         },
         "_placeholder": {
-            "color": "gray.400"
+            "color": "gray.400",
+            "font_size": FontSizes.SM,  # 0.875rem / 14px
         },
     },
     rx.form: {
